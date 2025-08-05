@@ -4,7 +4,7 @@ const { roles, channels } = require("../utils/config.json");
 const fs = require("fs");
 const path = require("path");
 const { request } = require("undici");
-const eceMembers = require("../models/users.js");
+const memberInfo = require("../models/users.js");
 
 module.exports = {
     name: Events.GuildMemberAdd,
@@ -14,14 +14,14 @@ module.exports = {
         const unixTime = Math.floor(Date.now() / 1000);
 
         try {
-            const userData = await eceMembers.findOne({ userID: member.id });
+            const userData = await memberInfo.findOne({ userID: member.id });
 
             // join roles
             if (userData && userData.isVerified) {
                 const memberRole = member.guild.roles.cache.get(roles.member);
                 await member.roles.add(memberRole);
             } else if (userData && !userData.isVerified) {
-                await eceMembers.deleteOne({ userID: member.id });
+                await memberInfo.deleteOne({ userID: member.id });
 
                 const newMemberRole = member.guild.roles.cache.get(
                     roles.unauthorized
@@ -40,7 +40,7 @@ module.exports = {
 
             // load bg
             const bgBuffer = fs.readFileSync(
-                path.resolve(__dirname, "../assets/images/ece-join-bg.png")
+                path.resolve(__dirname, "../assets/images/eng-bg.png")
             );
             const background = await Canvas.loadImage(bgBuffer);
             context.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -87,7 +87,7 @@ module.exports = {
                 Math.PI * 2,
                 true
             );
-            context.strokeStyle = "#ea6f24";
+            context.strokeStyle = "#d0212a";
             context.lineWidth = 15;
             context.stroke();
             context.restore();

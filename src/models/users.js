@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const eceMembers = new Schema({
+const memberInfo = new Schema({
     userID: { type: String, required: true, default: null },
     nickname: { type: String, required: true, default: null },
     department: { type: String, required: true, default: null },
@@ -8,4 +8,4 @@ const eceMembers = new Schema({
     isVerified: { type: Boolean, required: true, default: false },
 });
 
-module.exports = model("eceMembers", eceMembers);
+module.exports = model("memberInfo", memberInfo);

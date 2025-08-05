@@ -15,8 +15,8 @@ const {
     TextInputBuilder,
     TextInputStyle,
 } = require("discord.js");
-const { roles, channels } = require("../utils/config.json");
-const eceMembers = require("../models/users.js");
+const { roles, channels, tags } = require("../utils/config.json");
+const memberInfo = require("../models/users.js");
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -64,7 +64,7 @@ module.exports = {
                 await member.roles.add(verifyRole);
                 await member.roles.remove(joinRole);
 
-                await eceMembers.updateOne(
+                await memberInfo.updateOne(
                     { userID: userId },
                     { isVerified: true }
                 );
@@ -73,7 +73,7 @@ module.exports = {
                     new ContainerBuilder()
                         .addTextDisplayComponents(
                             new TextDisplayBuilder().setContent(
-                                `-# <t:${unixTime}:f>\n# ✅ **คุณผ่านการอนุมัติ !**\nยินดีด้วย คุณผ่านการคัดเลือกในการเข้าร่วมเซิร์ฟเวอร์เป็นที่เรียบร้อย\nขอต้อนรับเข้าสู่เซิร์ฟเวอร์ของภาควิชา Electrical and Computer Engineering!\n\nคุณสามารถเข้าไปพูดคุย / แชร์เนื้อหาเรียน / เล่นเกม และอื่นๆ ด้วยกันกับทุกคนในเซิร์ฟเวอร์ได้เลย\nแล้วอย่าลืมอ่านกฎของเซิร์ฟเวอร์ด้วยนะ ขอให้สนุก!`
+                                `-# <t:${unixTime}:f>\n# ✅ **คุณผ่านการอนุมัติ !**\nยินดีด้วย คุณผ่านการคัดเลือกในการเข้าร่วมเซิร์ฟเวอร์เป็นที่เรียบร้อย\nขอต้อนรับเข้าสู่เซิร์ฟเวอร์ของคณะวิศวกรรม Engineering จากมหาวิทยาลัยพระจอมเกล้าพระนครเหนือ !\n\nคุณสามารถเข้าไปพูดคุย / แชร์เนื้อหาเรียน / เล่นเกม และอื่นๆ ด้วยกันกับทุกคนในเซิร์ฟเวอร์ได้เลย\nแล้วอย่าลืมอ่านกฎของเซิร์ฟเวอร์ด้วยนะ ขอให้สนุก!\n\n-# ข้อมูลการลงทะเบียนของคุณจะถูกบันทึกไว้ในฐานข้อมูลของเรา คุณจะไม่ต้องทำการยืนยันตัวตนใหม่อีกต่อไป หากต้องการแก้ไขข้อมูลโปรไฟล์ของคุณ สามารถใช้งานคำสั่ง /profile เพื่อปรับแต่งข้อมูลได้ทันที`
                             )
                         )
                         .addSeparatorComponents(
@@ -87,7 +87,7 @@ module.exports = {
                                     .setStyle(ButtonStyle.Link)
                                     .setLabel("ไปที่แชทหลัก")
                                     .setURL(
-                                        "https://discord.com/channels/1385682544623616211/1385682545210949840"
+                                        "https://discord.com/channels/1375011227402637404/1375013433581244517"
                                     )
                             )
                         ),
@@ -145,7 +145,7 @@ module.exports = {
                                     .setStyle(ButtonStyle.Link)
                                     .setLabel("ไปลงทะเบียนใหม่")
                                     .setURL(
-                                        "https://discord.com/channels/1385682544623616211/1385686306033762496"
+                                        "https://discord.com/channels/1375011227402637404/1396186325048098876"
                                     ),
                                 new ButtonBuilder()
                                     .setStyle(ButtonStyle.Link)
@@ -300,7 +300,7 @@ module.exports = {
             }
             case "edit_profile": {
                 try {
-                    const userData = await eceMembers.findOne({
+                    const userData = await memberInfo.findOne({
                         userID: user.id,
                     });
 
@@ -352,6 +352,61 @@ module.exports = {
             // verification
             case "open_verification": {
                 try {
+                    const components = [
+                        new ContainerBuilder()
+                            .addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent(
+                                    "## **❓ กรุณาเลือกรูปแบบที่ตรงกับตัวคุณ**"
+                                )
+                            )
+                            .addSeparatorComponents(
+                                new SeparatorBuilder()
+                                    .setSpacing(SeparatorSpacingSize.Large)
+                                    .setDivider(true)
+                            )
+                            .addActionRowComponents(
+                                new ActionRowBuilder().addComponents(
+                                    new ButtonBuilder()
+                                        .setStyle(ButtonStyle.Primary)
+                                        .setLabel("เป็นนักศึกษาจากคณะ")
+                                        .setCustomId("engMember"),
+                                    new ButtonBuilder()
+                                        .setStyle(ButtonStyle.Secondary)
+                                        .setLabel("เป็นนักศึกษาจากคณะอื่น")
+                                        .setCustomId("fromUni"),
+                                    new ButtonBuilder()
+                                        .setStyle(ButtonStyle.Secondary)
+                                        .setLabel("เป็นบุคคลภายนอก")
+                                        .setCustomId("fromOutside")
+                                )
+                            ),
+                    ];
+
+                    await interaction.reply({
+                        components: components,
+                        flags:
+                            MessageFlags.Ephemeral |
+                            MessageFlags.IsComponentsV2,
+                    });
+                } catch (error) {
+                    console.error("[open verification] error:", error);
+                }
+
+                break;
+            }
+            case "engMember": {
+                try {
+                    const checkData = await memberInfo.findOne({
+                        userID: interaction.user.id,
+                    });
+
+                    if (checkData) {
+                        return interaction.reply({
+                            content: `❌ <@${interaction.user.id}> คุณส่งข้อมูลยืนยันตัวตนไปแล้ว กรุณารอการอนุมัติจากทีมงาน`,
+                            flags: MessageFlags.Ephemeral,
+                        });
+                    }
+
                     const modal = new ModalBuilder()
                         .setCustomId("verification_modal")
                         .setTitle("ยืนยันตัวตน")
@@ -394,15 +449,77 @@ module.exports = {
 
                     await interaction.showModal(modal);
                 } catch (error) {
-                    console.error("[open verification] error:", error);
+                    console.error("[engMember] error :", error);
                 }
 
+                break;
+            }
+            case "fromUni": {
+                try {
+                    const joinRole = interaction.guild.roles.cache.find(
+                        (role) => role.id === roles.unauthorized
+                    );
+                    const verifyRole = interaction.guild.roles.cache.find(
+                        (role) => role.id === roles.visitor
+                    );
+                    await interaction.member.roles.add(verifyRole);
+                    await interaction.member.roles.remove(joinRole);
+
+                    const replyEmbed = new EmbedBuilder()
+                        .setDescription(
+                            `✅ <@${interaction.user.id}> ยืนยันตัวตนเสร็จแล้ว!`
+                        )
+                        .setColor("#33ff70");
+
+                    const response = await interaction.reply({
+                        embeds: [replyEmbed],
+                    });
+
+                    setTimeout(async () => {
+                        await response.delete();
+                    }, 3000);
+
+                    break;
+                } catch (error) {
+                    console.error("[engVisitor] error:", error);
+                }
+                break;
+            }
+            case "fromOutside": {
+                try {
+                    const joinRole = interaction.guild.roles.cache.find(
+                        (role) => role.id === roles.unauthorized
+                    );
+                    const verifyRole = interaction.guild.roles.cache.find(
+                        (role) => role.id === roles.visitor
+                    );
+                    await interaction.member.roles.add(verifyRole);
+                    await interaction.member.roles.remove(joinRole);
+
+                    const replyEmbed = new EmbedBuilder()
+                        .setDescription(
+                            `✅ <@${interaction.user.id}> ยืนยันตัวตนเสร็จแล้ว!`
+                        )
+                        .setColor("#33ff70");
+
+                    const response = await interaction.reply({
+                        embeds: [replyEmbed],
+                    });
+
+                    setTimeout(async () => {
+                        await response.delete();
+                    }, 3000);
+
+                    break;
+                } catch (error) {
+                    console.error("[engVisitor] error:", error);
+                }
                 break;
             }
 
             // close threads
             case "thread_problem_solved": {
-                const tagID = "1385693579845832824";
+                const tagID = tags.resolved;
 
                 try {
                     if (

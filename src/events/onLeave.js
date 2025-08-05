@@ -19,7 +19,7 @@ module.exports = {
 
             // load bg
             const bgBuffer = fs.readFileSync(
-                path.resolve(__dirname, "../assets/images/ece-join-bg.png")
+                path.resolve(__dirname, "../assets/images/eng-bg.png")
             );
             const background = await Canvas.loadImage(bgBuffer);
             context.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -66,7 +66,7 @@ module.exports = {
                 Math.PI * 2,
                 true
             );
-            context.strokeStyle = "#ea6f24";
+            context.strokeStyle = "#d0212a";
             context.lineWidth = 15;
             context.stroke();
             context.restore();

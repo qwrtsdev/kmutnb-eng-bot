@@ -13,7 +13,7 @@ const {
     SeparatorSpacingSize,
 } = require("discord.js");
 const { channels } = require("../utils/config.json");
-const eceMembers = require("../models/users.js");
+const memberInfo = require("../models/users.js");
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -91,7 +91,7 @@ module.exports = {
                         embeds: [replyEmbed],
                     });
 
-                    await eceMembers.create({
+                    await memberInfo.create({
                         userID: interaction.user.id,
                         nickname: userNickName,
                         department: departmentName,
@@ -119,6 +119,8 @@ module.exports = {
                     setTimeout(async () => {
                         await response.delete();
                     }, 3000);
+
+                    break;
                 } catch (error) {
                     console.error("[verification] error :", error);
 
@@ -199,7 +201,7 @@ module.exports = {
                             "setupInstagram"
                         ) || null;
 
-                    await eceMembers.create({
+                    await memberInfo.create({
                         userID: interaction.user.id,
                         nickname: nickname,
                         department: department,
@@ -256,7 +258,7 @@ module.exports = {
                 await interaction.deferReply();
 
                 try {
-                    const userData = await eceMembers.findOne({
+                    const userData = await memberInfo.findOne({
                         userID: interaction.user.id,
                     });
 
@@ -277,7 +279,7 @@ module.exports = {
                         instagram = null;
                     }
 
-                    await eceMembers.updateOne(
+                    await memberInfo.updateOne(
                         { userID: interaction.user.id },
                         {
                             $set: {

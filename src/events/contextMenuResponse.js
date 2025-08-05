@@ -11,7 +11,7 @@ const {
     ActionRowBuilder,
     MessageFlags,
 } = require("discord.js");
-const eceMembers = require("../models/users.js");
+const memberInfo = require("../models/users.js");
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -29,7 +29,7 @@ module.exports = {
                     await interaction.deferReply({
                         flags: MessageFlags.Ephemeral,
                     });
-                    const userInfo = await eceMembers.findOne({
+                    const userInfo = await memberInfo.findOne({
                         userID: target.id,
                     });
 

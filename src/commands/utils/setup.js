@@ -45,6 +45,11 @@ module.exports = {
                                     .setLabel("หน้าต่างการยืนยันตัวตน")
                                     .setValue("setup_verification")
                             )
+                            .addOptions(
+                                new StringSelectMenuOptionBuilder()
+                                    .setLabel("หน้าต่างเลือกภาควิชา")
+                                    .setValue("setup_department_roles")
+                            )
                     )
                 )
                 .addTextDisplayComponents(
@@ -80,7 +85,7 @@ module.exports = {
                             .addMediaGalleryComponents(
                                 new MediaGalleryBuilder().addItems(
                                     new MediaGalleryItemBuilder().setURL(
-                                        "https://media.discordapp.net/attachments/1385915359198183456/1385917985880805386/ece_component-cover-ticket.png?ex=6857d034&is=68567eb4&hm=a20ac1d61cf2c907975d80a2caafa344b10701d386f08e0efa6b9fecedf46dc6&=&format=webp&quality=lossless&width=1440&height=315"
+                                        "https://media.discordapp.net/attachments/1399430120443482213/1399671433155842149/eng_component-cover-ticket.png?ex=6889d91a&is=6888879a&hm=716a02250916ae58889408c86bd4240884ab91f8ac8d6e0e7b0c8bb3fa5e52d2&=&format=webp&quality=lossless&width=1440&height=315"
                                     )
                                 )
                             )
@@ -118,13 +123,13 @@ module.exports = {
                             .addMediaGalleryComponents(
                                 new MediaGalleryBuilder().addItems(
                                     new MediaGalleryItemBuilder().setURL(
-                                        "https://media.discordapp.net/attachments/1385915359198183456/1386273719244030003/ece_component-cover-verify.png?ex=68591b82&is=6857ca02&hm=9c79c745cb849420dbae67e849dc8ce58825488f3adbfa930a2a05530325ddd0&=&format=webp&quality=lossless&width=1440&height=315"
+                                        "https://media.discordapp.net/attachments/1399430120443482213/1399671433470279740/eng_component-cover-verify.png?ex=6889d91a&is=6888879a&hm=df45cbbcf78103e1db3af13af578d2485568bef0fb53d9db55cbedbab55e3f54&=&format=webp&quality=lossless&width=1440&height=315"
                                     )
                                 )
                             )
                             .addTextDisplayComponents(
                                 new TextDisplayBuilder().setContent(
-                                    '# ✅ Verification — ยืนยันตัวตน\nยินดีต้อนรับคุณเข้าสู่เซิร์ฟเวอร์คอมมูนิตี้ของภาควิชา [วิศวกรรมไฟฟ้าและคอมพิวเตอร์](https://ece.eng.kmutnb.ac.th/en/) แห่ง[คณะวิศวกรรมศาสตร์](https://www.eng.kmutnb.ac.th/) จาก[มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ](https://www.kmutnb.ac.th/?lang=th)\n\nก่อนที่คุณจะสามารถเข้าถึงห้องต่างๆภายในเซิร์ฟเวอร์แห่งนี้ คุณจะต้องดำเนินการ "ยืนยันตัวตน" เสียก่อน เพื่อทำการรับบทบาทในเซิร์ฟเวอร์\nคุณสามารถทำการยืนยันตัวตนได้โดยการกดปุ่ม ``เริ่มยืนยันตัวตน`` ด้านล่าง\n\n-# คุณจะต้องยอมรับว่าข้อมูลที่ใส่มานั้นเป็นความจริง หากตรวจสอบแล้วพบว่ามีการลงทะเบียนด้วยข้อมูลที่ไม่จริง หรือมีเจตนาปั่นป่วน อาจมีการลงโทษในภายหลัง'
+                                    '# ✅ Verification — ยืนยันตัวตน\nยินดีต้อนรับคุณเข้าสู่เซิร์ฟเวอร์คอมมูนิตี้ของ[คณะวิศวกรรมศาสตร์](https://www.eng.kmutnb.ac.th/) จาก[มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ](https://www.kmutnb.ac.th/?lang=th)\n\nก่อนที่คุณจะสามารถเข้าถึงห้องต่างๆภายในเซิร์ฟเวอร์แห่งนี้ คุณจะต้องดำเนินการ "ยืนยันตัวตน" เสียก่อน เพื่อทำการรับบทบาทในเซิร์ฟเวอร์\nคุณสามารถทำการยืนยันตัวตนได้โดยการกดปุ่ม ``เริ่มยืนยันตัวตน`` ด้านล่าง\n\n- สำหรับสมาชิกที่เป็นนักศึกษาจากคณะวิศวกรรมศาสตร์จะต้องพิมพ์ข้อมูลเพื่อยืนยันตัวตนเล็กน้อย\n- คุณจะต้องยอมรับว่าข้อมูลที่ใส่มานั้นเป็นความจริง หากตรวจสอบแล้วพบว่ามีการลงทะเบียนด้วยข้อมูลที่ไม่จริง หรือมีเจตนาปั่นป่วน อาจมีการลงโทษในภายหลัง\n\n-# หากคุณมีปัญหาในการยืนยันตัวตน กรุณาติดต่อแอดมินที่ปุ่มด้านล่าง'
                                 )
                             )
                             .addSeparatorComponents(
@@ -152,6 +157,122 @@ module.exports = {
                         components: verificationComponent,
                         flags: MessageFlags.IsComponentsV2,
                     });
+                    break;
+                }
+
+                // setup department roles
+                case "setup_department_roles": {
+                    try {
+                        const departmentRolesComponent = [
+                            new ContainerBuilder()
+                                .addMediaGalleryComponents(
+                                    new MediaGalleryBuilder().addItems(
+                                        new MediaGalleryItemBuilder().setURL(
+                                            "https://media.discordapp.net/attachments/1399430120443482213/1402361121075105925/eng_departments.png?ex=6893a211&is=68925091&hm=64dff6b64b54ce8b49e41198d127d64604f28ebbb0def76dcad330ee6a4636af&=&format=webp&quality=lossless&width=1440&height=315"
+                                        )
+                                    )
+                                )
+                                .addTextDisplayComponents(
+                                    new TextDisplayBuilder().setContent(
+                                        '# **⚙️ Department Selection — เลือกภาควิชา**\nในคณะวิศวกรรมศาสตร์ จะมีภาควิชาทั้งหมด 9 ภาคในขณะนี้\nคุณปรับแต่งสถานะของตัวเองให้เข้ากับคุณ เพื่อเปลี่ยนลักษณะของคุณ และปลดล็อความสามารถ\n\n- หลังจากกดรับสถานะภาควิชาแล้ว ระบบจะทำการเปิดห้องตามภาควิชาที่เลือก\n- ระบบจะทำการมอบบทบาทตามที่คุณเลือก และเปลี่ยนชื่อในเซิร์ฟเวอร์\n- หากคุณต้องการลบสถานะออก กรุณาเลือก "ถอนสถานะ"\n\n-# หากพบปัญหาในการใช้งาน กรุณาติดต่อแอดมิน'
+                                    )
+                                )
+                                .addSeparatorComponents(
+                                    new SeparatorBuilder()
+                                        .setSpacing(SeparatorSpacingSize.Large)
+                                        .setDivider(true)
+                                )
+                                .addActionRowComponents(
+                                    new ActionRowBuilder().addComponents(
+                                        new StringSelectMenuBuilder()
+                                            .setCustomId(
+                                                "department_roles_selection"
+                                            )
+                                            .setPlaceholder(
+                                                "เลือกภาควิชาของคุณ"
+                                            )
+                                            .addOptions(
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("ถอนสถานะ")
+                                                    .setValue(
+                                                        "department_roles_remove"
+                                                    )
+                                                    .setDescription(
+                                                        "ลบตำแหน่งภาควิชาของคุณ"
+                                                    )
+                                                    .setEmoji({
+                                                        name: "🚫",
+                                                    }),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("MAE")
+                                                    .setValue("department_mae")
+                                                    .setDescription(
+                                                        "Mechanical and Aerospace Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("ECE")
+                                                    .setValue("department_ece")
+                                                    .setDescription(
+                                                        "Electrical and Computer Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("PE")
+                                                    .setValue("department_pe")
+                                                    .setDescription(
+                                                        "Production and Robotics Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("CHE")
+                                                    .setValue("department_che")
+                                                    .setDescription(
+                                                        "Chemical Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("MHLE")
+                                                    .setValue("department_mlhe")
+                                                    .setDescription(
+                                                        "Materials Handling and Logistics Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("MPTE")
+                                                    .setValue("department_mpte")
+                                                    .setDescription(
+                                                        "Materials and Production Technology Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("IEE")
+                                                    .setValue("department_iee")
+                                                    .setDescription(
+                                                        "Instrumentation and Electronics Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("CE")
+                                                    .setValue("department_ce")
+                                                    .setDescription(
+                                                        "Civil Engineering"
+                                                    ),
+                                                new StringSelectMenuOptionBuilder()
+                                                    .setLabel("IE")
+                                                    .setValue("department_ie")
+                                                    .setDescription(
+                                                        "Industrial Engineering"
+                                                    )
+                                            )
+                                    )
+                                ),
+                        ];
+
+                        await channel.send({
+                            components: departmentRolesComponent,
+                            flags: MessageFlags.IsComponentsV2,
+                        });
+                    } catch (error) {
+                        console.error(
+                            "[setup_department_roles] error :",
+                            error
+                        );
+                    }
+
                     break;
                 }
 

@@ -13,7 +13,7 @@ const {
     ActionRowBuilder,
     ContainerBuilder,
 } = require("discord.js");
-const eceMembers = require("../../models/users.js");
+const memberInfo = require("../../models/users.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ module.exports = {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         try {
-            const userInfo = await eceMembers.findOne({
+            const userInfo = await memberInfo.findOne({
                 userID: interaction.user.id,
             });
 
