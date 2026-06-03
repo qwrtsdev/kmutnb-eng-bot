@@ -8,7 +8,7 @@ const {
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("anonymous")
+        .setName("a")
         .setDescription("ส่งข้อความแบบไม่ระบุตัวตน"),
 
     async execute(interaction) {

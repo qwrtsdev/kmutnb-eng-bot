@@ -271,7 +271,7 @@ module.exports = {
                         .setTitle("ตั้งค่าโปรไฟล์")
                         .addComponents(
                             new ActionRowBuilder().addComponents(
-                                new TextInputBuilder()
+                                new TextInputBuilder() 
                                     .setCustomId("setupNickname")
                                     .setLabel("ชื่อเล่น")
                                     .setStyle(TextInputStyle.Short)

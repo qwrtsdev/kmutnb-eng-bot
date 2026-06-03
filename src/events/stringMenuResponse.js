@@ -3,6 +3,9 @@ const {
     TextDisplayBuilder,
     ContainerBuilder,
     MessageFlags,
+    ModalBuilder,
+    ActionRowBuilder,
+    TextInputStyle,
 } = require("discord.js");
 const { preservedRoles, departments } = require("../utils/config.json");
 
@@ -116,6 +119,29 @@ module.exports = {
 
                     break;
                 }
+                case "vcRename": {
+                    try {
+                        const modal = new ModalBuilder()
+                            .setCustomId("vcrename_modal")
+                            .setTitle("เปลี่ยนชื่อห้องเสียง")
+                            .addComponents(
+                                new ActionRowBuilder().addComponents(
+                                    new TextInputBuilder()
+                                        .setCustomId("roomname")
+                                        .setLabel("พิมพ์ชื่อห้องเสียงใหม่")
+                                        .setStyle(TextInputStyle.Short)
+                                        .setRequired(true)
+                                )
+                            );
+
+                        await interaction.showModal(modal);
+                    } catch (error) {
+                        console.error("[setup profile] error:", error);
+                    }
+
+                    break;
+                }
+
                 default: {
                     const components = [
                         new ContainerBuilder().addTextDisplayComponents(
@@ -158,21 +184,6 @@ module.exports = {
                         await interaction.member.roles.add(newDeptId);
                     }
 
-                    try {
-                        await interaction.member.setNickname(null);
-
-                        await interaction.member.setNickname(
-                            `[${selectedKey.toUpperCase()}] ${
-                                interaction.member.user.username
-                            }`
-                        );
-                    } catch (error) {
-                        console.error(
-                            "[department_roles_selection] error :",
-                            error
-                        );
-                    }
-
                     const addComponent = [
                         new ContainerBuilder().addTextDisplayComponents(
                             new TextDisplayBuilder().setContent(
@@ -203,8 +214,6 @@ module.exports = {
                                     rolesToRemove
                                 );
                             }
-
-                            await interaction.member.setNickname(null);
                         } catch (error) {
                             console.error(
                                 "[department_roles_remove] error :",

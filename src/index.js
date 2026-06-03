@@ -23,7 +23,7 @@ const client = new Client({
             {
                 type: ActivityType.Custom,
                 name: "custom",
-                state: "⚡ /help · kmutnb.ac.th",
+                state: "❓ /help · COM2999",
             },
         ],
     },

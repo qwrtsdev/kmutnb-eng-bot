@@ -103,18 +103,25 @@ module.exports = {
                         flags: MessageFlags.IsComponentsV2,
                     });
 
-                    const dmComponents = [
-                        new ContainerBuilder().addTextDisplayComponents(
-                            new TextDisplayBuilder().setContent(
-                                `-# <t:${unixTime}:f>\n# 🕑 **ส่งคำขอเข้าร่วมสำเร็จแล้ว !**\nคุณทำการส่งคำขอเข้าร่วมเซิร์ฟเวอร์ผ่านการยืนยันตัวตนสำเร็จแล้ว\n\nกรุณารอการอนุมัติจากทีมงาน อาจใช้เวลาในการดำเนินการสักพัก...\nหากคุณได้รับอนุญาติให้เข้าร่วมแล้ว จะได้รับการแจ้งเตือนทันที`
-                            )
-                        ),
-                    ];
+                    try {
+                        const dmComponents = [
+                            new ContainerBuilder().addTextDisplayComponents(
+                                new TextDisplayBuilder().setContent(
+                                    `-# <t:${unixTime}:f>\n# 🕑 **ส่งคำขอเข้าร่วมสำเร็จแล้ว !**\nคุณทำการส่งคำขอเข้าร่วมเซิร์ฟเวอร์ผ่านการยืนยันตัวตนสำเร็จแล้ว\n\nกรุณารอการอนุมัติจากทีมงาน อาจใช้เวลาในการดำเนินการสักพัก...\nหากคุณได้รับอนุญาติให้เข้าร่วมแล้ว จะได้รับการแจ้งเตือนทันที`
+                                )
+                            ),
+                        ];
 
-                    await interaction.user.send({
-                        components: dmComponents,
-                        flags: MessageFlags.IsComponentsV2,
-                    });
+                        await interaction.user.send({
+                            components: dmComponents,
+                            flags: MessageFlags.IsComponentsV2,
+                        });
+                    } catch (error) {
+                        console.error(
+                            "[verification_modal - dm] error :",
+                            error
+                        );
+                    }
 
                     setTimeout(async () => {
                         await response.delete();
@@ -162,10 +169,11 @@ module.exports = {
 
                     const response = await interaction.reply({
                         embeds: [replyEmbed],
+                        flags: MessageFlags.Ephemeral,
                     });
                     setTimeout(async () => {
                         await response.delete();
-                    }, 10);
+                    }, 3000);
 
                     const message = await channel.send({
                         content: `\`\`💬 ใครบางคน :\`\`\n${anonymousMessage}`,
@@ -332,6 +340,34 @@ module.exports = {
                 } catch (error) {
                     console.error("[edit profile] error:", error);
                 }
+
+                break;
+            }
+
+            case "vcrename_modal": {
+                const roomName =
+                    interaction.fields.getTextInputValue("roomname");
+
+                const modChannel = await voiceChannel.fetch(channelId);
+
+                if (!modChannel) {
+                    const notFoundComponent = [
+                        new ContainerBuilder().addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent(
+                                "🚫 ไม่พบห้องเสียงที่ระบุ"
+                            )
+                        ),
+                    ];
+
+                    return interaction.reply({
+                        components: notFoundComponent,
+                        flags:
+                            MessageFlags.Ephemeral |
+                            MessageFlags.IsComponentsV2,
+                    });
+                }
+
+                await voiceChannel.setName(roomName);
 
                 break;
             }

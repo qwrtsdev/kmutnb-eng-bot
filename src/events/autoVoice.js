@@ -71,7 +71,7 @@ module.exports = {
                                         .setPlaceholder("กรุณาคลิกเพื่อเลือก")
                                         .addOptions(
                                             new StringSelectMenuOptionBuilder()
-                                                .setLabel("เปลี่ยนชื่อ 🔒")
+                                                .setLabel("เปลี่ยนชื่อ")
                                                 .setValue("vcRename")
                                                 .setDescription(
                                                     "เปลี่ยนชื่อห้องที่ใช้แสดงผล"
